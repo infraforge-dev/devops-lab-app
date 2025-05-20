@@ -10,7 +10,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
         builder.Property(x => x.Price).HasColumnType("decimal(18,2)");
 
-        //TODO: Validate lengths for properties in application layer. Affects performance and indexing.
+        //TODO: Validate lengths for properties in application layer.
         builder.Property(x => x.Name).HasMaxLength(100);
         builder.Property(x => x.Description).HasMaxLength(500);
         builder.Property(x => x.PictureUrl).HasMaxLength(2048);
