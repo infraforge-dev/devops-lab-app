@@ -1,88 +1,76 @@
 using Core.Entities;
-using Infrastructure.Data;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class ProductsController : ControllerBase
+    public class ProductsController(IProductRepository repository) : ControllerBase
     {
-        private readonly ProductsDbContext _context;
-
-        public ProductsController(ProductsDbContext context)
-        {
-            _context = context;
-        }
-
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProductsAsync()
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            return await _context.Products.ToListAsync();
+            // Unfortunately, you lose type checking by wrapping in OKObjectResult
+            return Ok(await repository.GetProductsAsync());
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Product>> GetProductByIdAsync(int id)
+        public async Task<ActionResult<Product>> GetProductById(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await repository.GetProductByIdAsync(id);
 
-            if (product == null) return NotFound();
+            if (product == null) return NotFound("Product not found.");
 
             return product;
         }
 
         [HttpPost]
-        public async Task<ActionResult<Product>> CreateProductAsync(Product product)
+        public async Task<ActionResult<Product>> CreateProduct(Product product)
         {
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+            repository.AddProduct(product);
 
-            return product;
+            if (await repository.SaveChangesAsync())
+            {
+                return CreatedAtAction("GetProductById", new { id = product.Id }, product);
+            }
+
+            return BadRequest("Error creating product.");
         }
 
         [HttpPut("{id:int}")]
         public async Task<ActionResult> UpdateProduct(int id, Product product)
         {
-            if (id != product.Id)
+            if (id != product.Id || !repository.ProductExists(id))
             {
-                return BadRequest("Product ID mismatch.");
+                return BadRequest("Cannot update this product.");
             }
 
-            var existingProduct = await _context.Products.FindAsync(id);
+            repository.UpdateProduct(product);
 
-            if (existingProduct == null)
+            if (await repository.SaveChangesAsync())
             {
-                return NotFound("Product not found.");
+                return NoContent();
             }
 
-            // Update properties
-            existingProduct.Name = product.Name;
-            existingProduct.Description = product.Description;
-            existingProduct.Price = product.Price;
-            existingProduct.PictureUrl = product.PictureUrl;
-            existingProduct.Type = product.Type;
-            existingProduct.Brand = product.Brand;
-            existingProduct.QuantityInStock = product.QuantityInStock;
-
-            // Save changes with tracking
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return BadRequest("Error updating product.");
         }
 
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await repository.GetProductByIdAsync(id);
 
-            if (product == null) return NotFound();
+            if (product == null) return NotFound("Product not found.");
 
-            _context.Products.Remove(product);
+            repository.DeleteProduct(product);
 
-            await _context.SaveChangesAsync();
+            if (await repository.SaveChangesAsync())
+            {
+                return NoContent();
+            }
 
-            return NoContent();
+            return BadRequest("Error deleting product.");
         }
     }
 }

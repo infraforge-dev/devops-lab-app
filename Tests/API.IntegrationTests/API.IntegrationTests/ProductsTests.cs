@@ -106,7 +106,7 @@ namespace API.IntegrationTests
             nonExistingProduct.Id = 89898;
 
             var getResponse = await _client.PutAsJsonAsync($"/api/v1/products/{nonExistingProduct.Id}", nonExistingProduct);
-            getResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            getResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         [Fact]
