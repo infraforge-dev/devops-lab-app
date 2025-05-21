@@ -78,5 +78,60 @@ namespace API.IntegrationTests
             updated!.Price.Should().Be(99.99m);
             updated.QuantityInStock.Should().Be(10);
         }
+
+        [Fact]
+        public async Task Delete_Product_Success()
+        {
+            var postResponse = await _client.PostAsJsonAsync("/api/v1/products", GetSampleProduct("ToDeleteProduct"));
+            var product = await postResponse.Content.ReadFromJsonAsync<Product>();
+
+            var deleteResponse = await _client.DeleteAsync($"/api/v1/products/{product!.Id}");
+            deleteResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+            var getResponse = await _client.GetAsync($"api/v1/products/{product.Id}");
+            getResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task GetProductById_NotFound()
+        {
+            var getResponse = await _client.GetAsync("/api/v1/products/99999");
+            getResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task UpdateProduct_NotFound()
+        {
+            var nonExistingProduct = GetSampleProduct("Phantom");
+            nonExistingProduct.Id = 89898;
+
+            var getResponse = await _client.PutAsJsonAsync($"/api/v1/products/{nonExistingProduct.Id}", nonExistingProduct);
+            getResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task DeleteProduct_NotFound()
+        {
+            var response = await _client.DeleteAsync("/api/v1/products/77777");
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task CreateProduct_InvalidModel_ReturnsBadRequest()
+        {
+            var badProduct = new Product
+            {
+                Name = "",
+                Description = "",
+                Price = 10.00m,
+                PictureUrl = "",
+                Type = "",
+                Brand = "",
+                QuantityInStock = 0
+            };
+
+            var response = await _client.PostAsJsonAsync("/api/v1/products", badProduct);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
     }
 }
