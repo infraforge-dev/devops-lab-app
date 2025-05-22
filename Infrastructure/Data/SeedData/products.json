@@ -1,0 +1,182 @@
+[
+  {
+    "Name": "Hyperion X12 CPU",
+    "Description": "Next-generation processor delivering exceptional multi-core performance for rendering and gaming workloads.",
+    "Price": 329.99,
+    "PictureUrl": "/images/products/sb-ang1.png",
+    "Type": "CPUs",
+    "Brand": "Intel",
+    "QuantityInStock": 47
+  },
+  {
+    "Name": "VegaStorm XT Graphics Card",
+    "Description": "High-end GPU with advanced cooling and real-time ray tracing for ultra-smooth visuals.",
+    "Price": 549.50,
+    "PictureUrl": "/images/products/sb-ang2.png",
+    "Type": "GPUs",
+    "Brand": "NVIDIA",
+    "QuantityInStock": 19
+  },
+  {
+    "Name": "Strix X570 Pro Motherboard",
+    "Description": "Feature-rich board with PCIe 4.0 support, reinforced DIMM slots, and customizable RGB lighting.",
+    "Price": 219.00,
+    "PictureUrl": "/images/products/sb-ang3.png",
+    "Type": "Motherboards",
+    "Brand": "ASUS",
+    "QuantityInStock": 82
+  },
+  {
+    "Name": "Vengeance LPX DDR4 16GB",
+    "Description": "Low-profile memory kit optimized for high-frequency overclocking and tight timings.",
+    "Price": 89.99,
+    "PictureUrl": "/images/products/sb-ang4.png",
+    "Type": "Memory",
+    "Brand": "Corsair",
+    "QuantityInStock": 6
+  },
+  {
+    "Name": "EvoTech 1TB NVMe SSD",
+    "Description": "Blazing-fast solid-state drive with up to 3500 MB/s read speeds and durable flash memory.",
+    "Price": 134.95,
+    "PictureUrl": "/images/products/sb-ang5.png",
+    "Type": "Storage",
+    "Brand": "Samsung",
+    "QuantityInStock": 74
+  },
+  {
+    "Name": "IronWolf 4TB HDD",
+    "Description": "High-capacity drive engineered for 24/7 reliability in desktop and NAS environments.",
+    "Price": 119.00,
+    "PictureUrl": "/images/products/sb-ang6.png",
+    "Type": "Hard Drives",
+    "Brand": "Seagate",
+    "QuantityInStock": 33
+  },
+  {
+    "Name": "StormForce 650W Gold PSU",
+    "Description": "Fully modular power supply with 80 PLUS Gold efficiency and silent hydraulic bearings.",
+    "Price": 99.99,
+    "PictureUrl": "/images/products/sb-ang7.png",
+    "Type": "PSUs",
+    "Brand": "EVGA",
+    "QuantityInStock": 90
+  },
+  {
+    "Name": "Phantom Series Mid-Tower Case",
+    "Description": "Sleek chassis with tempered glass panel, multiple fan mounts, and ample cable-management space.",
+    "Price": 129.99,
+    "PictureUrl": "/images/products/sb-ang8.png",
+    "Type": "Cases",
+    "Brand": "NZXT",
+    "QuantityInStock": 21
+  },
+  {
+    "Name": "CryoMaster CPU Cooler",
+    "Description": "High-performance air cooler featuring dual-tower heatsink and quiet PWM fan.",
+    "Price": 64.75,
+    "PictureUrl": "/images/products/sb-ang9.png",
+    "Type": "Coolers",
+    "Brand": "Noctua",
+    "QuantityInStock": 58
+  },
+  {
+    "Name": "AeroFlow 120mm Case Fan",
+    "Description": "Ultra-quiet fan with fluid dynamic bearings and anti-vibration mounts for optimal airflow.",
+    "Price": 19.49,
+    "PictureUrl": "/images/products/sb-ang10.png",
+    "Type": "Fans",
+    "Brand": "Corsair",
+    "QuantityInStock": 3
+  },
+  {
+    "Name": "Zenith X3 M.2 SSD",
+    "Description": "High-speed NVMe M.2 drive offering up to 5000 MB/s sequential reads.",
+    "Price": 199.99,
+    "PictureUrl": "/images/products/sb-ang11.png",
+    "Type": "Storage",
+    "Brand": "Western Digital",
+    "QuantityInStock": 65
+  },
+  {
+    "Name": "Radeon Fury RX 6800 XT",
+    "Description": "Powerful graphics card with 16 GB GDDR6 and AMD Smart Access Memory support.",
+    "Price": 649.00,
+    "PictureUrl": "/images/products/sb-ang12.png",
+    "Type": "GPUs",
+    "Brand": "AMD",
+    "QuantityInStock": 28
+  },
+  {
+    "Name": "ProSeries X9 Motherboard",
+    "Description": "High-end ATX board with Wi-Fi 6, Bluetooth 5.2, and advanced power delivery.",
+    "Price": 249.50,
+    "PictureUrl": "/images/products/sb-ang13.png",
+    "Type": "Motherboards",
+    "Brand": "MSI",
+    "QuantityInStock": 14
+  },
+  {
+    "Name": "Ballistix Sport LT 32GB",
+    "Description": "Dual-channel DDR4 kit with sleek heatspreaders and optimized for Intel and AMD platforms.",
+    "Price": 159.99,
+    "PictureUrl": "/images/products/sb-ang14.png",
+    "Type": "Memory",
+    "Brand": "G.Skill",
+    "QuantityInStock": 77
+  },
+  {
+    "Name": "ThermaGuard 240mm Radiator",
+    "Description": "High-density aluminum radiator optimized for liquid cooling loops.",
+    "Price": 84.99,
+    "PictureUrl": "/images/products/sb-ang15.png",
+    "Type": "Coolers",
+    "Brand": "Thermaltake",
+    "QuantityInStock": 52
+  },
+  {
+    "Name": "QuantumCore 2TB HDD",
+    "Description": "Enterprise-grade hard drive with 7200 RPM spindle speed and extended cache.",
+    "Price": 139.00,
+    "PictureUrl": "/images/products/sb-ang16.png",
+    "Type": "Hard Drives",
+    "Brand": "Western Digital",
+    "QuantityInStock": 39
+  },
+  {
+    "Name": "BlackDiamond 750W PSU",
+    "Description": "BRONZE certified, semi-modular unit with quiet operation under load.",
+    "Price": 79.49,
+    "PictureUrl": "/images/products/sb-ang17.png",
+    "Type": "PSUs",
+    "Brand": "Be Quiet!",
+    "QuantityInStock": 88
+  },
+  {
+    "Name": "Eclipse Evo Micro-ATX Case",
+    "Description": "Compact case with tempered glass side panel and front USB-C port.",
+    "Price": 99.99,
+    "PictureUrl": "/images/products/sb-ang18.png",
+    "Type": "Cases",
+    "Brand": "Phanteks",
+    "QuantityInStock": 25
+  },
+  {
+    "Name": "Arctic P12 PWM Fan",
+    "Description": "Durable case fan with high static pressure and PWM-controlled speed.",
+    "Price": 12.95,
+    "PictureUrl": "/images/products/sb-ang19.png",
+    "Type": "Fans",
+    "Brand": "Arctic",
+    "QuantityInStock": 46
+  },
+  {
+    "Name": "FrostBlade Liquid Cooler",
+    "Description": "All-in-one AIO cooler with 240 mm radiator and dual RGB fans.",
+    "Price": 109.99,
+    "PictureUrl": "/images/products/sb-ang20.png",
+    "Type": "Coolers",
+    "Brand": "Cooler Master",
+    "QuantityInStock": 31
+  }
+]
