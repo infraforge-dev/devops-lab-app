@@ -20,6 +20,20 @@ var app = builder.Build();
 
 app.MapControllers();
 
+// Create database and apply migrations if needed
+try
+{
+    using var scope = app.Services.CreateScope();
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ProductsDbContext>();
+    await context.Database.MigrateAsync();
+    await ProductContextSeed.SeedAsync(context);
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex);
+}
+
 app.Run();
 
 // Needed for integration testing support in .NET top-level statements.
