@@ -31,4 +31,4 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal Tests\API.IntegrationTests\API.IntegrationTests\API.IntegrationTests.csproj
+      run: dotnet test --no-build --verbosity normal Tests/API.IntegrationTests/API.IntegrationTests/API.IntegrationTests.csproj
