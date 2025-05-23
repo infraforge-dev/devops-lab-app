@@ -14,16 +14,19 @@ namespace API.IntegrationTests
             _client = factory.CreateClient();
         }
 
-        private Product GetSampleProduct(string name = "Mouse") => new()
-        {
-            Name = name,
-            Description = "Gaming Mouse",
-            Price = 59.99m,
-            PictureUrl = "http://example.com/mouse.jpg",
-            Type = "Peripheral",
-            Brand = "Logitech",
-            QuantityInStock = 12
-        };
+        private Product GetSampleProduct(
+           string name = "Mouse",
+           string type = "Peripheral",
+           string brand = "Logitech") => new()
+           {
+               Name = name,
+               Description = "Gaming Mouse",
+               Price = 59.99m,
+               PictureUrl = "http://example.com/mouse.jpg",
+               Type = type,
+               Brand = brand,
+               QuantityInStock = 12
+           };
 
         [Fact]
         public async Task Create_Then_Get_Product_Success()
@@ -58,6 +61,42 @@ namespace API.IntegrationTests
             var products = await response.Content.ReadFromJsonAsync<List<Product>>();
             products.Should().Contain(p => p.Name == "Monitor");
             products.Should().Contain(p => p.Name == "Webcam");
+        }
+
+        [Fact]
+        public async Task Get_Product_Brands_Return_Unique_List()
+        {
+            // Arrange: ensure distinct brands
+            await _client.PostAsJsonAsync("/api/v1/products", GetSampleProduct("ProdA", "Type1", "BrandA"));
+            await _client.PostAsJsonAsync("/api/v1/products", GetSampleProduct("ProdB", "Type2", "BrandB"));
+            await _client.PostAsJsonAsync("/api/v1/products", GetSampleProduct("ProdC", "Type1", "BrandA"));
+
+            // Act
+            var response = await _client.GetAsync("/api/v1/products/brands");
+            response.EnsureSuccessStatusCode();
+            var brands = await response.Content.ReadFromJsonAsync<IReadOnlyList<string>>();
+
+            // Assert
+            brands.Should().Contain(new[] { "BrandA", "BrandB" });
+            brands.Should().OnlyHaveUniqueItems();
+        }
+
+        [Fact]
+        public async Task Get_Product_Types_Return_Unique_List()
+        {
+            // Arrange: ensure distinct types
+            await _client.PostAsJsonAsync("/api/v1/products", GetSampleProduct("ProdX", "TypeX", "BrandX"));
+            await _client.PostAsJsonAsync("/api/v1/products", GetSampleProduct("ProdY", "TypeY", "BrandY"));
+            await _client.PostAsJsonAsync("/api/v1/products", GetSampleProduct("ProdZ", "TypeX", "BrandZ"));
+
+            // Act
+            var response = await _client.GetAsync("/api/v1/products/types");
+            response.EnsureSuccessStatusCode();
+            var types = await response.Content.ReadFromJsonAsync<IReadOnlyList<string>>();
+
+            // Assert
+            types.Should().Contain(new[] { "TypeX", "TypeY" });
+            types.Should().OnlyHaveUniqueItems();
         }
 
         [Fact]
