@@ -1,0 +1,39 @@
+name: .NET Lint (Analyzers + StyleCop)
+
+on:
+  pull_request:
+    branches: [ "main", "develop" ]
+  push:
+    branches: [ "main", "develop" ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ../devops-lab-app
+    strategy:
+      matrix:
+        dotnet-version: ['8.0.x']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Lint with dotnet format (check formatting and style)
+        run: dotnet format devops-lab-app.sln --verify-no-changes --severity error
+
+      - name: Build to run analyzers (fail on analyzer warnings/errors)
+        run: dotnet build devops-lab-app.sln --no-restore --warnaserror
+
+      # Optional: Show analyzers issues for review
+      # - name: List analyzer issues
+      #   run: dotnet build --no-restore --warnaserror -v:d
