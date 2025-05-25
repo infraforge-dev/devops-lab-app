@@ -9,11 +9,14 @@ namespace Infrastructure.Data
         {
             if (!context.Products.Any())
             {
-                //! Check file path if error occurs
+                // !Check file path if error occurs
                 var productsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/products.json");
                 var products = JsonSerializer.Deserialize<List<Product>>(productsData);
 
-                if (products == null) return;
+                if (products == null)
+                {
+                    return;
+                }
 
                 context.Products.AddRange(products);
                 await context.SaveChangesAsync();

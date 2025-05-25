@@ -17,7 +17,10 @@ namespace API.IntegrationTests
             {
                 var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ProductsDbContext>));
 
-                if (descriptor != null) services.Remove(descriptor);
+                if (descriptor != null)
+                {
+                    services.Remove(descriptor);
+                }
 
                 // Setup SQLite in-memory DB
                 _connection = new SqliteConnection("DataSource=:memory:");

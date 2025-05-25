@@ -20,7 +20,10 @@ namespace API.Controllers
         {
             var product = await repository.GetProductByIdAsync(id);
 
-            if (product == null) return NotFound("Product not found.");
+            if (product == null)
+            {
+                return NotFound("Product not found.");
+            }
 
             return product;
         }
@@ -73,7 +76,10 @@ namespace API.Controllers
         {
             var product = await repository.GetProductByIdAsync(id);
 
-            if (product == null) return NotFound("Product not found.");
+            if (product == null)
+            {
+                return NotFound("Product not found.");
+            }
 
             repository.DeleteProduct(product);
 
