@@ -20,9 +20,24 @@ namespace API.Controllers
         {
             var product = await repository.GetProductByIdAsync(id);
 
-            if (product == null) return NotFound("Product not found.");
+            if (product == null)
+            {
+                return NotFound("Product not found.");
+            }
 
             return product;
+        }
+
+        [HttpGet("types")]
+        public async Task<ActionResult<IReadOnlyList<string>>> GetTypes()
+        {
+            return Ok(await repository.GetTypesAsync());
+        }
+
+        [HttpGet("brands")]
+        public async Task<ActionResult<IReadOnlyList<string>>> GetBrands()
+        {
+            return Ok(await repository.GetBrandsAsync());
         }
 
         [HttpPost]
@@ -61,7 +76,10 @@ namespace API.Controllers
         {
             var product = await repository.GetProductByIdAsync(id);
 
-            if (product == null) return NotFound("Product not found.");
+            if (product == null)
+            {
+                return NotFound("Product not found.");
+            }
 
             repository.DeleteProduct(product);
 
