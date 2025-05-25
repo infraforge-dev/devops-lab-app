@@ -55,6 +55,5 @@ namespace Infrastructure.Repositories
         {
             return await context.SaveChangesAsync() > 0;
         }
-
     }
 }
