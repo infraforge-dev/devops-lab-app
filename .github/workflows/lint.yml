@@ -29,10 +29,10 @@ jobs:
         run: dotnet restore
 
       - name: Lint with dotnet format (check formatting and style)
-        run: dotnet format --verify-no-changes --severity error
+        run: dotnet format devops-lab-app.sln --verify-no-changes --severity error
 
       - name: Build to run analyzers (fail on analyzer warnings/errors)
-        run: dotnet build --no-restore --warnaserror
+        run: dotnet build devops-lab-app.sln --no-restore --warnaserror
 
       # Optional: Show analyzers issues for review
       # - name: List analyzer issues

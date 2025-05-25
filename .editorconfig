@@ -11,6 +11,9 @@ indent_style = space
 indent_size = 4
 trim_trailing_whitespace = true
 
+[*.csproj]
+dotnet_diagnostic.SA1516.severity = none
+
 # C# files
 [*.cs]
 # Enable warnings as errors for both NetAnalyzers and StyleCop
@@ -23,6 +26,7 @@ dotnet_diagnostic.CA1861.severity = none
 
 # StyleCop rules (SAxxxx)
 dotnet_diagnostic.SA*.severity = error
+dotnet_diagnostic.SA0001.severity = none
 dotnet_diagnostic.SA1633.severity = none
 dotnet_diagnostic.SA1101.severity = none
 dotnet_diagnostic.SA1009.severity = none
