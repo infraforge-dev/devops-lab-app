@@ -39,4 +39,3 @@ app.Run();
 // Needed for integration testing support in .NET top-level statements.
 // Enables referencing the Program class in WebApplicationFactory<Program>
 public partial class Program { }
-

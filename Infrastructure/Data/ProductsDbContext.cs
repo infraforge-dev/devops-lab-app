@@ -12,8 +12,7 @@ public class ProductsDbContext(DbContextOptions options) : DbContext(options)
     {
         base.OnModelCreating(modelBuilder);
 
-        //* Apply configurations from the assembly where ProductConfiguration is defined (config folder)
+        // *Apply configurations from the assembly where ProductConfiguration is defined (config folder)
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProductConfiguration).Assembly);
     }
-
 }

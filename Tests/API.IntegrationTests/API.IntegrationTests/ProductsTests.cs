@@ -5,16 +5,11 @@ using FluentAssertions;
 
 namespace API.IntegrationTests
 {
-    public class ProductsTests : IClassFixture<CustomWebApplicationFactory>
+    public class ProductsTests(CustomWebApplicationFactory factory) : IClassFixture<CustomWebApplicationFactory>
     {
-        private readonly HttpClient _client;
+        private readonly HttpClient _client = factory.CreateClient();
 
-        public ProductsTests(CustomWebApplicationFactory factory)
-        {
-            _client = factory.CreateClient();
-        }
-
-        private Product GetSampleProduct(
+        private static Product GetSampleProduct(
            string name = "Mouse",
            string type = "Peripheral",
            string brand = "Logitech") => new()
@@ -77,7 +72,7 @@ namespace API.IntegrationTests
             var brands = await response.Content.ReadFromJsonAsync<IReadOnlyList<string>>();
 
             // Assert
-            brands.Should().Contain(new[] { "BrandA", "BrandB" });
+            brands.Should().Contain(["BrandA", "BrandB"]);
             brands.Should().OnlyHaveUniqueItems();
         }
 
@@ -95,7 +90,7 @@ namespace API.IntegrationTests
             var types = await response.Content.ReadFromJsonAsync<IReadOnlyList<string>>();
 
             // Assert
-            types.Should().Contain(new[] { "TypeX", "TypeY" });
+            types.Should().Contain(["TypeX", "TypeY"]);
             types.Should().OnlyHaveUniqueItems();
         }
 

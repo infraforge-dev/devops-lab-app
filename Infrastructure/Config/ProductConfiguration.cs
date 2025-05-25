@@ -1,6 +1,6 @@
+using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Core.Entities;
 
 namespace Infrastructure.Config;
 
@@ -8,8 +8,8 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
     public void Configure(EntityTypeBuilder<Product> builder)
     {
+        // TODO: Validate lengths for properties in application layer.
 
-        //TODO: Validate lengths for properties in application layer.
         builder.Property(x => x.Name).HasMaxLength(100).IsRequired();
         builder.Property(x => x.Description).HasMaxLength(500).IsRequired();
         builder.Property(x => x.Price).HasColumnType("decimal(18,2)");

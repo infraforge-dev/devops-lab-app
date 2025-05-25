@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -28,6 +28,7 @@ namespace Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                 });
+#pragma warning restore SA1413 // Use trailing comma in multi-line initializers
         }
 
         /// <inheritdoc />
