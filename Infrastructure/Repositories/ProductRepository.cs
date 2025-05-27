@@ -1,4 +1,5 @@
 using Core.Entities;
+using Core.Enums;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -7,9 +8,23 @@ namespace Infrastructure.Repositories
 {
     public class ProductRepository(ProductsDbContext context) : IProductRepository
     {
-        public async Task<IReadOnlyList<Product>> GetProductsAsync()
+        public async Task<IReadOnlyList<Product>> GetProductsAsync(string? brand, string? type, ProductSortOptions sort)
         {
-            return await context.Products.ToListAsync();
+            var query = context.Products
+                .Where(p =>
+                    (string.IsNullOrWhiteSpace(brand) || p.Brand == brand) &&
+                    (string.IsNullOrWhiteSpace(type) || p.Type == type));
+
+            query = sort switch
+            {
+                ProductSortOptions.PriceDesc => query.OrderByDescending(p => p.Price).ThenBy(p => p.Name),
+                ProductSortOptions.PriceAsc => query.OrderBy(p => p.Price).ThenBy(p => p.Name),
+                ProductSortOptions.NameDesc => query.OrderByDescending(p => p.Name),
+                ProductSortOptions.NameAsc => query.OrderBy(p => p.Name),
+                _ => query.OrderBy(p => p.Name)
+            };
+
+            return await query.ToListAsync();
         }
 
         public async Task<Product?> GetProductByIdAsync(int id)
