@@ -44,6 +44,7 @@ namespace API.IntegrationTests
             retrieved.Brand.Should().Be("Logitech");
         }
 
+        // !Update to test sorting logic
         [Fact]
         public async Task Get_Products_Return_List()
         {
