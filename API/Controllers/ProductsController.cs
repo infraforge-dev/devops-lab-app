@@ -1,4 +1,5 @@
 using Core.Entities;
+using Core.Enums;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,13 @@ namespace API.Controllers
     public class ProductsController(IProductRepository repository) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(
+            string? brand,
+            string? type,
+            ProductSortOptions sort = ProductSortOptions.NameAsc)
         {
             // Unfortunately, you lose type checking by wrapping in OKObjectResult
-            return Ok(await repository.GetProductsAsync());
+            return Ok(await repository.GetProductsAsync(brand, type, sort));
         }
 
         [HttpGet("{id:int}")]
