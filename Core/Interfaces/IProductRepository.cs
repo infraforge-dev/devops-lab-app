@@ -1,11 +1,10 @@
 using Core.Entities;
-using Core.Enums;
 
 namespace Core.Interfaces
 {
     public interface IProductRepository
     {
-        Task<IReadOnlyList<Product>> GetProductsAsync(string? brand, string? type, ProductSortOptions sort);
+        Task<IReadOnlyList<Product>> GetProductsAsync(string? brand, string? type);
 
         Task<Product?> GetProductByIdAsync(int id);
 
