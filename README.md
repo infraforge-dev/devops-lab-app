@@ -20,6 +20,7 @@
 8. [Testing](#testing)
 9. [CI/CD & Deployment](#cicd--deployment)
 10. [Architecture & Directory Structure](#architecture--directory-structure)
+11. [Query Specification Pattern](#query-specification-pattern)
 11. [Roadmap](#roadmap)
 12. [Contributing](#contributing)
 13. [License](#license)
@@ -234,6 +235,30 @@ CI/CD is powered by GitHub Actions.
 - **Core/** — Domain layer with entity definitions and repository interfaces.
 - **Infrastructure/** — EF Core implementation: configurations, DbContext & seeding, migrations, and repository classes.
 - **docker-compose.yml** & **.sln** — root-level orchestration and solution file.
+
+---
+
+## Query Specification Pattern
+
+This project implements the Specification Pattern to encapsulate filtering, sorting, and projection logic in a clean, reusable way. The pattern is used across the `ProductRepository`, `GenericRepository<T>`, and controller layers.
+
+### Benefits:
+- Promotes single-responsibility and composability of query logic.
+- Separates LINQ expressions for criteria, ordering, and selection.
+- Simplifies API controller actions — specs handle all query logic.
+- Supports projection with automatic `.Distinct()` application where needed.
+
+### Example Use Cases:
+- `/api/v1/products?brand=Logitech&type=Peripheral&sort=PriceAsc`
+- `/api/v1/products/brands` – returns distinct brand values
+- `/api/v1/products/types` – returns distinct type values
+
+### Relevant Files:
+- `Core/Specifications/BaseSpecification.cs`
+- `Core/Specifications/BaseSpecification.TResult.cs`
+- `Core/Specifications/ProductSpecification.cs`
+- `Core/Specifications/BrandListSpecification.cs`
+- `Infrastructure/Data/SpecificationEvaluator.cs`
 
 ---
 
