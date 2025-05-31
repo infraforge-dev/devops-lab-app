@@ -23,6 +23,12 @@ namespace Infrastructure.Data
                 query = query.OrderByDescending(spec.OrderByDescending);
             }
 
+            if (spec.IsPagingEnabled)
+            {
+                query = query.Skip(spec.Skip).Take(spec.Take);
+            }
+
+            // No projection, just return the original query
             return query;
         }
 
@@ -45,6 +51,12 @@ namespace Infrastructure.Data
                 query = query.OrderByDescending(spec.OrderByDescending);
             }
 
+            if (spec.IsPagingEnabled)
+            {
+                query = query.Skip(spec.Skip).Take(spec.Take);
+            }
+
+            // Handle projection and distinct
             if (spec.Selector is not null)
             {
                 var projected = query.Select(spec.Selector);
