@@ -1,3 +1,4 @@
+using API.RequestHelpers;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
@@ -10,12 +11,17 @@ namespace API.Controllers
     public class ProductsController(IGenericRepository<Product> repository) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(string? brand, string? type, string? sort)
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts([FromQuery] ProductSpecificationParams specParams)
         {
-            var spec = new ProductSpecification(brand, type, sort);
+            var spec = new ProductSpecification(specParams);
             var products = await repository.ListAsync(spec);
 
-            return Ok(products);
+            var countSpec = new ProductCountSpecification(specParams);
+            var count = await repository.CountAsync(countSpec);
+
+            var pagination = new Pagination<Product>(specParams.PageIndex, specParams.PageSize, count, products);
+
+            return Ok(pagination);
         }
 
         [HttpGet("{id:int}")]
