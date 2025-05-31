@@ -2,12 +2,26 @@ using System.Net;
 using System.Net.Http.Json;
 using Core.Entities;
 using FluentAssertions;
+using Infrastructure.Data;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace API.IntegrationTests
 {
     public class ProductsTests(CustomWebApplicationFactory factory) : IClassFixture<CustomWebApplicationFactory>
     {
         private readonly HttpClient _client = factory.CreateClient();
+
+        [Fact]
+        public async Task InitializeAsync()
+        {
+            using var scope = factory.Services.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<ProductsDbContext>();
+            await db.Database.EnsureDeletedAsync();
+            await db.Database.EnsureCreatedAsync();
+        }
+
+        [Fact]
+        public Task DisposeAsync() => Task.CompletedTask;
 
         private static Product GetSampleProduct(
            string name = "Mouse",
