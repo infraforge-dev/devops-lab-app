@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Core.Entities;
 using Core.Enums;
 
@@ -5,12 +6,10 @@ namespace Core.Specifications
 {
     public class ProductSpecification : BaseSpecification<Product>
     {
-        public ProductSpecification(string? brand, string? type, string? sort)
-            : base(p =>
-            (string.IsNullOrWhiteSpace(brand) || p.Brand == brand) &&
-            (string.IsNullOrWhiteSpace(type) || p.Type == type))
+        public ProductSpecification(ProductSpecificationParams specParams)
+            : base(CreateProductFilter(specParams))
         {
-            switch (sort)
+            switch (specParams.Sort)
             {
                 case nameof(ProductSortOptions.PriceAsc):
                     AddOrderBy(p => p.Price);
@@ -25,6 +24,15 @@ namespace Core.Specifications
                     AddOrderBy(p => p.Name);
                     break;
             }
+
+            ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize);
+        }
+
+        public static Expression<Func<Product, bool>> CreateProductFilter(ProductSpecificationParams specParams)
+        {
+            return p =>
+                (!specParams.Brands.Any() || specParams.Brands.Contains(p.Brand)) &&
+                (!specParams.Types.Any() || specParams.Types.Contains(p.Type));
         }
     }
 }

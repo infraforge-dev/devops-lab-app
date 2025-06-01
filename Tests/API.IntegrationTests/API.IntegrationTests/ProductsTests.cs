@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
+using API.RequestHelpers;
 using Core.Entities;
 using FluentAssertions;
 using Infrastructure.Data;
@@ -58,19 +59,26 @@ namespace API.IntegrationTests
             retrieved.Brand.Should().Be("Logitech");
         }
 
-        // !Update to test sorting logic
         [Fact]
-        public async Task Get_Products_Return_List()
+        public async Task Get_Products_Returns_Paginated_List()
         {
-            var product1 = await _client.PostAsJsonAsync("/api/v1/products", GetSampleProduct("Monitor"));
-            var product2 = await _client.PostAsJsonAsync("/api/v1/products", GetSampleProduct("Webcam"));
+            // Arrange
+            await _client.PostAsJsonAsync("/api/v1/products", GetSampleProduct("Monitor"));
+            await _client.PostAsJsonAsync("/api/v1/products", GetSampleProduct("Webcam"));
 
-            var response = await _client.GetAsync("/api/v1/products");
+            // Act
+            var response = await _client.GetAsync("/api/v1/products?pageIndex=1&pageSize=10");
             response.EnsureSuccessStatusCode();
 
-            var products = await response.Content.ReadFromJsonAsync<List<Product>>();
-            products.Should().Contain(p => p.Name == "Monitor");
-            products.Should().Contain(p => p.Name == "Webcam");
+            var paged = await response.Content.ReadFromJsonAsync<Pagination<Product>>();
+
+            // Assert
+            paged.Should().NotBeNull();
+            paged.Data.Should().Contain(p => p.Name == "Monitor");
+            paged.Data.Should().Contain(p => p.Name == "Webcam");
+            paged.TotalCount.Should().BeGreaterThanOrEqualTo(2);
+            paged.PageIndex.Should().Be(1);
+            paged.PageSize.Should().Be(10);
         }
 
         [Fact]
