@@ -21,21 +21,23 @@ dotnet_diagnostic.SA1516.severity = none
 dotnet_analyzer_diagnostic.severity = error
 dotnet_diagnostic.CA1050.severity = none
 dotnet_diagnostic.CA1707.severity = none
+dotnet_diagnostic.CA1860.severity = none
 dotnet_diagnostic.CA1861.severity = none
-
 
 # StyleCop rules (SAxxxx)
 dotnet_diagnostic.SA*.severity = error
 dotnet_diagnostic.SA0001.severity = none
-dotnet_diagnostic.SA1633.severity = none
+dotnet_diagnostic.SA1010.severity = none
 dotnet_diagnostic.SA1101.severity = none
 dotnet_diagnostic.SA1009.severity = none
 dotnet_diagnostic.SA1200.severity = none
+dotnet_diagnostic.SA1309.severity = none
 dotnet_diagnostic.SA1413.severity = none
 dotnet_diagnostic.SA1502.severity = none
 dotnet_diagnostic.SA1512.severity = none
 dotnet_diagnostic.SA1600.severity = none
 dotnet_diagnostic.SA1601.severity = none
+dotnet_diagnostic.SA1633.severity = none
 
 dotnet_diagnostic.IDE0001.severity = none
 dotnet_diagnostic.IDE0022.severity = none
