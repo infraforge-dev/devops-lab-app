@@ -6,6 +6,23 @@
 # dotenv files
 .env
 
+# OpenTofu / Terraform state and config files
+*.tfstate
+*.tfstate.*
+.opentofu/
+.terraform/
+terraform.tfstate
+terraform.tfstate.*
+opentofu.tfstate
+opentofu.tfstate.*
+
+# .tfvars files containing secrets (recommend you name them secrets.*.tfvars or *.auto.tfvars, etc)
+*.tfvars
+*.tfvars.json
+
+# Ignore files with sensitive deployment info
+secrets.json
+
 # User-specific files
 *.rsuser
 *.suo

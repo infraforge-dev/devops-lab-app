@@ -12,19 +12,20 @@
 
 1. [Project Overview](#project-overview)
 2. [Tech Stack](#tech-stack)
-3. [Features](#features)
-4. [Prerequisites](#prerequisites)
-5. [Installation & Setup](#installation--setup)
-6. [Usage](#usage)
-7. [Code Linting & Style](#code-linting--style)
-8. [Testing](#testing)
-9. [CI/CD & Deployment](#cicd--deployment)
-10. [Architecture & Directory Structure](#architecture--directory-structure)
-11. [Query Specification Pattern](#query-specification-pattern)
-11. [Roadmap](#roadmap)
-12. [Contributing](#contributing)
-13. [License](#license)
-14. [Acknowledgements & Contact](#acknowledgements--contact)
+3. [Prerequisites](#prerequisites)
+4. [Features](#features)
+5. [Cloud Deployment (AWS & OpenTofu)](#cloud-deployment-aws--opentofu)
+6. [Local Installation & Setup](#local-installation--setup)
+7. [Usage](#usage)
+8. [Code Linting & Style](#code-linting--style)
+9. [Testing](#testing)
+10. [CI/CD & Deployment](#cicd--deployment)
+11. [Architecture & Directory Structure](#architecture--directory-structure)
+12. [Query Specification Pattern](#query-specification-pattern)
+13. [Roadmap](#roadmap)
+14. [Contributing](#contributing)
+15. [License](#license)
+16. [Acknowledgements & Contact](#acknowledgements--contact)
 
 ---
 
@@ -50,7 +51,20 @@ Future modules will demonstrate Infrastructure as Code (IaC), Terraform, AWS dep
 - **DevOps & Tooling:**
   - Docker Compose (Azure SQL Edge container)
   - Postman (API testing)
-  - Planned: Terraform, AWS, GitHub Actions, Prometheus/Grafana
+  - OpenTofu (Terraform-compatible IaC)
+  - AWS ECS (Fargate), ECR, RDS (PostgreSQL), ALB
+  - CloudWatch Logs
+  - GitHub Actions (CI/CD)
+  - Planned: Prometheus/Grafana
+
+---
+
+## Prerequisites
+
+- [.NET 8 SDK](https://dotnet.microsoft.com/download)
+- [Node.js 18+ & npm](https://nodejs.org/)
+- [Docker Engine & Docker Compose](https://docs.docker.com/)
+- (Optional) [Postman](https://www.postman.com/) for manual testing
 
 ---
 
@@ -73,16 +87,65 @@ Future modules will demonstrate Infrastructure as Code (IaC), Terraform, AWS dep
 
 ---
 
-## Prerequisites
+## Cloud Deployment (AWS & OpenTofu)
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/download)
-- [Node.js 18+ & npm](https://nodejs.org/)
-- [Docker Engine & Docker Compose](https://docs.docker.com/)
-- (Optional) [Postman](https://www.postman.com/) for manual testing
+The project now includes a production-ready AWS deployment setup using [OpenTofu](https://opentofu.org/) (a Terraform-compatible, open-source IaC tool).
+All cloud infrastructure is defined and managed in the /infra directory.
+
+**Provisioned resources include:**
+
+- ECR (Elastic Container Registry): Stores Docker images for your API.
+
+- ECS (Fargate): Runs your containerized API securely, managed by AWS.
+
+- RDS (PostgreSQL): Free-tier eligible managed database.
+
+- Application Load Balancer (ALB): Publicly exposes your API endpoints.
+
+- IAM Roles & Security Groups: Follows AWS best practices for least privilege and safe networking.
+
+- CloudWatch Logs: Real-time centralized logging for your containers.
+
+### Cloud Deployment Workflow
+
+1. **Build Docker Image**
+```bash
+docker build -t infraforge-api:latest .
+```
+
+2. **Push Image to ECR (Elastic Container Registry in AWS)**
+```bash
+docker tag infraforge-api:latest <your-account-id>.dkr.ecr.<region>.amazonaws.com/infraforge-api:latest
+docker push <your-account-id>.dkr.ecr.<region>.amazonaws.com/infraforge-api:latest
+```
+
+3. **Provision AWS Infrastructure with OpenTofu**
+```bash
+cd infra
+tofu init
+tofu apply
+```
+- Enter AWS/DB credentials and Docker tag when prompted.
+
+- ALB DNS and RDS endpoints are output after apply.
+
+4. **Test your API**
+- Access your API using the ALB DNS output, e.g.:
+```bash
+http://<alb-dns-name>/api/v1/products
+```
+
+5. **Tear Down Infra (save costs)**
+```bash
+tofu destroy
+```
+
+**Secrets and credentials are passed as variables—never committed to source.**
+All infrastructure changes are reproducible and version-controlled.
 
 ---
 
-## Installation & Setup
+## local Installation & Setup
 
 **Spin up the backend API and Azure SQL Edge database in minutes:**
 
@@ -158,7 +221,7 @@ This auto-formats code and fixes most style issues. For analyzer errors or warni
 
 All rules are enforced in CI. If the lint workflow fails, check the logs, run `dotnet format`, fix any remaining issues, and push again.
 
-
+---
 ## Testing
 
 **Unit and Integration Tests**
@@ -192,14 +255,6 @@ CI/CD is powered by GitHub Actions.
 
 - (Planned) On merge to main, a Docker image will be built and published to a container registry.
 
-### Future additions (Roadmap)
-
-- Automated deployments to AWS using Terraform.
-
-- Observability tooling (metrics, logging, tracing) setup with Prometheus/Grafana.
-
-- Kubernetes deployments.
-
 ---
 
 ## Architecture & Directory Structure
@@ -228,12 +283,19 @@ CI/CD is powered by GitHub Actions.
 │   ├── Migrations/
 │   └── Repositories/
 │       └── ProductRepository.cs
+├── infra/
+│   ├── main.tf
+│   ├── variables.tf
+│   ├── outputs.tf
+│   └── provider.tf
 └── README.md
 ```
 
 - **API/** — .NET 8 Web API project, contains controllers, configuration, and entry point.
 - **Core/** — Domain layer with entity definitions and repository interfaces.
 - **Infrastructure/** — EF Core implementation: configurations, DbContext & seeding, migrations, and repository classes.
+- **Tests/** - XUnit Integration Tests
+- **Infra/** - Cloud infrastructure definition and management files using OpenTofu
 - **docker-compose.yml** & **.sln** — root-level orchestration and solution file.
 
 ---
@@ -264,15 +326,21 @@ This project implements the Specification Pattern to encapsulate filtering, sort
 
 ## Roadmap
 
- - Infrastructure as Code examples (Terraform)
+- [x] Infrastructure as Code: AWS infra using OpenTofu (ECR, ECS Fargate, RDS, ALB, IAM, CloudWatch)
 
- - AWS provisioning & deployments
+- [x] Dockerized API image and registry setup
 
- - GitHub Actions CI/CD pipeline (build/test/lint, Docker publishing)
+- [x] ECS/ALB public deployment with secrets passed via environment variables
 
- - Observability training (metrics, logs, tracing)
+- [ ] Automated CI/CD: GitHub Actions build/test/lint + ECR deploy (in progress)
 
- - Kubernetes deployment demo
+- [ ] Custom domain + HTTPS (in progress)
+
+- [ ] Cloud observability dashboards (future)
+
+- [ ] Frontend deployment (future)
+
+- [ ] Kubernetes demo (future)
 
 ---
 
