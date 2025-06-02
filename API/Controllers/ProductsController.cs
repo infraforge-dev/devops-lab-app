@@ -8,20 +8,13 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class ProductsController(IGenericRepository<Product> repository) : ControllerBase
+    public class ProductsController(IGenericRepository<Product> repository) : BaseApiController
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts([FromQuery] ProductSpecificationParams specParams)
+        public async Task<ActionResult<Pagination<Product>>> GetProducts([FromQuery] ProductSpecificationParams specParams)
         {
             var spec = new ProductSpecification(specParams);
-            var products = await repository.ListAsync(spec);
-
-            var countSpec = new ProductCountSpecification(specParams);
-            var count = await repository.CountAsync(countSpec);
-
-            var pagination = new Pagination<Product>(specParams.PageIndex, specParams.PageSize, count, products);
-
-            return Ok(pagination);
+            return await CreatePagedResult(repository, spec, specParams.PageIndex, specParams.PageSize);
         }
 
         [HttpGet("{id:int}")]
