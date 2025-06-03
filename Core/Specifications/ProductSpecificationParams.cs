@@ -8,6 +8,8 @@ namespace Core.Specifications
 
         private List<string> _types = [];
 
+        private string? _search;
+
         private int _pageSize = 6;
 
         public List<string> Brands
@@ -23,6 +25,12 @@ namespace Core.Specifications
         }
 
         public string? Sort { get; set; }
+
+        public string Search
+        {
+            get => _search ?? string.Empty;
+            set => _search = value.ToLower();
+        }
 
         public int PageIndex { get; set; } = 1;
 
