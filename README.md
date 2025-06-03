@@ -1,10 +1,10 @@
 # DevOps Lab App
 
-[![Build & Test](https://github.com/infraforge-dev/devops-lab-app/actions/workflows/dotnet.yml/badge.svg)](https://github.com/infraforge-dev/devops-lab-app/actions/workflows/dotnet.yml)
-[![Lint](https://github.com/infraforge-dev/devops-lab-app/actions/workflows/lint.yml/badge.svg)](https://github.com/infraforge-dev/devops-lab-app/actions/workflows/lint.yml)
+[![Build & Test](https://github.com/infraforge-dev/devops-lab-app/actions/workflows/dotnet-ci.yml/badge.svg)](https://github.com/infraforge-dev/devops-lab-app/actions/workflows/dotnet-ci.yml)
+![.NET](https://img.shields.io/badge/.NET-8.0-blue)
 [![MIT License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-> A full-stack reference application for DevOps training and showcasing .NET backend skills.
+> A full-featured reference app for DevOps education, with a strong emphasis on .NET backend skills.
 
 ---
 
@@ -31,8 +31,11 @@
 
 ## Project Overview
 
-**DevOps Lab App** is a simple e-commerce–style reference application designed primarily for DevOps training. It also doubles as a showcase of modern backend development practices with .NET 8 and EF Core.
-Future modules will demonstrate Infrastructure as Code (IaC), Terraform, AWS deployments, observability dashboards, and CI/CD pipelines.
+DevOps Lab App is a simple e-commerce–style reference application designed primarily for DevOps training. It also doubles as a showcase of modern backend development practices with .NET 8 and EF Core.
+
+The project currently includes Infrastructure as Code (IaC) modules using OpenTofu to deploy to AWS Fargate and provision an RDS (Postgres) database. CI/CD is handled via GitHub Actions for linting, building, and testing the application.
+
+Future enhancements will add observability dashboards, expanded CI/CD workflows, and additional AWS and IaC modules.
 
 - **Repo:** [https://github.com/infraforge-dev/devops-lab-app](https://github.com/infraforge-dev/devops-lab-app)
 - **Public Postman Workspace:** [https://web.postman.co/workspace/f3d2aeac-ae77-4cee-91f9-6cddc12df833](https://web.postman.co/workspace/f3d2aeac-ae77-4cee-91f9-6cddc12df833)
@@ -80,10 +83,9 @@ Future modules will demonstrate Infrastructure as Code (IaC), Terraform, AWS dep
 - **CI/CD Integration**
   - Automated build, test, and lint workflows via GitHub Actions
 - **Future Modules**
-  - Infrastructure as Code examples (Terraform)
-  - AWS provisioning and deployments
-  - CI/CD pipeline definitions
-  - Observability (metrics, logs, tracing)
+  - Expanded observability: dashboards for metrics, logs, and tracing
+  - Enhanced CI/CD pipelines: deployment automation and additional stages
+  - Additional AWS infrastructure and IaC modules
 
 ---
 
