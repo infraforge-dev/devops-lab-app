@@ -31,6 +31,7 @@ namespace Core.Specifications
         public static Expression<Func<Product, bool>> CreateProductFilter(ProductSpecificationParams specParams)
         {
             return p =>
+                (string.IsNullOrEmpty(specParams.Search) || p.Name.ToLower().Contains(specParams.Search)) &&
                 (!specParams.Brands.Any() || specParams.Brands.Contains(p.Brand)) &&
                 (!specParams.Types.Any() || specParams.Types.Contains(p.Type));
         }
