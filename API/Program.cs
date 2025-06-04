@@ -1,3 +1,4 @@
+using API.Middleware;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
@@ -19,6 +20,7 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 
 // Create database and apply migrations if needed
