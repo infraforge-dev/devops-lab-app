@@ -12,6 +12,7 @@ public class Product : BaseEntity
     [MaxLength(500)]
     public string Description { get; set; } = default!;
 
+    [Range(0.01, double.MaxValue)]
     public decimal Price { get; set; }
 
     [Required]
