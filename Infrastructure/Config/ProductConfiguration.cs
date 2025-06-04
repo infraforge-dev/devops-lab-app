@@ -17,5 +17,10 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.Type).HasMaxLength(50).IsRequired();
         builder.Property(x => x.Brand).HasMaxLength(50).IsRequired();
         builder.Property(x => x.QuantityInStock).HasDefaultValue(0);
+
+        builder.ToTable(t =>
+        {
+            t.HasCheckConstraint("CK_Product_Price", "[Price] >= 0.01");
+        });
     }
 }
