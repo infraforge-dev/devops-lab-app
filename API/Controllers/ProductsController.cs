@@ -1,5 +1,6 @@
 using API.RequestHelpers;
 using Core.Entities;
+using Core.ExceptionTypes;
 using Core.Interfaces;
 using Core.Specifications;
 using Microsoft.AspNetCore.Mvc;
@@ -20,12 +21,8 @@ namespace API.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Product>> GetProductById(int id)
         {
-            var product = await repository.GetByIdAsync(id);
-
-            if (product == null)
-            {
-                return NotFound("Product not found.");
-            }
+            var product = await repository.GetByIdAsync(id)
+                ?? throw new NotFoundException($"Product with id {id} not found.");
 
             return product;
         }
@@ -54,7 +51,7 @@ namespace API.Controllers
                 return CreatedAtAction("GetProductById", new { id = product.Id }, product);
             }
 
-            return BadRequest("Error creating product.");
+            throw new OperationFailedException("Product could not be created.");
         }
 
         [HttpPut("{id:int}")]
@@ -62,7 +59,7 @@ namespace API.Controllers
         {
             if (id != product.Id || !repository.Exists(id))
             {
-                return BadRequest("Cannot update this product.");
+                throw new NotFoundException($"Product with id {id} not found.");
             }
 
             repository.Update(product);
@@ -72,18 +69,14 @@ namespace API.Controllers
                 return NoContent();
             }
 
-            return BadRequest("Error updating product.");
+            throw new OperationFailedException("Product could not be updated.");
         }
 
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteProduct(int id)
         {
-            var product = await repository.GetByIdAsync(id);
-
-            if (product == null)
-            {
-                return NotFound("Product not found.");
-            }
+            var product = await repository.GetByIdAsync(id)
+                ?? throw new NotFoundException($"Product with id {id} not found.");
 
             repository.Remove(product);
 
@@ -92,7 +85,7 @@ namespace API.Controllers
                 return NoContent();
             }
 
-            return BadRequest("Error deleting product.");
+            throw new OperationFailedException("Product could not be deleted.");
         }
     }
 }

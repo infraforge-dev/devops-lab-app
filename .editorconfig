@@ -23,6 +23,7 @@ dotnet_diagnostic.CA1050.severity = none
 dotnet_diagnostic.CA1304.severity = none
 dotnet_diagnostic.CA1311.severity = none
 dotnet_diagnostic.CA1707.severity = none
+dotnet_diagnostic.CA1848.severity = none
 dotnet_diagnostic.CA1860.severity = none
 dotnet_diagnostic.CA1862.severity = none
 dotnet_diagnostic.CA1861.severity = none
@@ -50,6 +51,7 @@ dotnet_diagnostic.IDE0008.severity = none
 dotnet_diagnostic.IDE0046.severity = none
 dotnet_diagnostic.IDE0058.severity = none
 dotnet_diagnostic.IDE0160.severity = none
+dotnet_diagnostic.IDE0290.severity = none
 
 # Example: set maximum line length
 max_line_length = 120

@@ -30,7 +30,7 @@ namespace Infrastructure.Services
                 return null;
             }
 
-            return await GetCartAsync(cart.CartId);
+            return await GetCartAsync(cart.CartId!);
         }
     }
 }
